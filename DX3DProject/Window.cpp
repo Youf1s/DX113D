@@ -44,18 +44,24 @@ HINSTANCE Window::WindowClass::GetInstance()
 
 
 
-Window::Window(int X, int Y, const char* name)
+Window::Window(int x, int y, const char* name)
+	:
+	X(x),
+	Y(y)
 {
 	
 	RECT WR;
 	WR.left = 100;
-	WR.right = X + WR.left;
+	WR.right = x + WR.left;
 	WR.top = 100;
-	WR.bottom = Y + WR.top;
-	AdjustWindowRect(&WR, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_THICKFRAME, FALSE);
+	WR.bottom = y + WR.top;
+	if (AdjustWindowRect(&WR, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU , FALSE) == 0)
+	{
+		throw YOUSIF_LAST_ERROR();
+	}
 	HWnd = CreateWindow(
 		WindowClass::GetName(), name,
-		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_THICKFRAME,
+		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU ,
 		CW_USEDEFAULT, CW_USEDEFAULT, WR.right - WR.left, WR.bottom - WR.top,
 		nullptr, nullptr, WindowClass::GetInstance(), this
 	);
@@ -70,6 +76,14 @@ Window::Window(int X, int Y, const char* name)
 Window::~Window()
 {
 	DestroyWindow(HWnd);
+}
+
+void Window::SetTitle(const std::string& title)
+{
+	if (SetWindowText(HWnd,title.c_str()) == 0)
+	{
+		throw YOUSIF_LAST_ERROR();
+	}
 }
 
 LRESULT WINAPI Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) 
@@ -106,6 +120,9 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_CLOSE:
 		PostQuitMessage(0);
 		return 0;
+
+		//////////// KBD ///////////////
+
 	case WM_KILLFOCUS:
 		KBD.ClearSt();
 	case WM_KEYDOWN:
@@ -123,6 +140,99 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_CHAR:
 		KBD.OnChar(static_cast<unsigned char>(wParam));
 		break;
+
+		//////////// MUS ///////////////
+
+	case WM_MOUSEMOVE:
+	{
+		const POINTS Pt = MAKEPOINTS(lParam);
+		
+
+		if (Pt.x >= 0 && Pt.x < X && Pt.y >= 0 && Pt.y < Y)
+		{
+			MUS.OnMouseMove(Pt.x, Pt.y);
+			if (!MUS.IsInWindow())
+			{
+				SetCapture(hWnd);
+				MUS.OnMouseEnter();
+			}
+		}
+		
+		else
+		{
+			if (wParam & (MK_LBUTTON | MK_RBUTTON))
+			{
+				MUS.OnMouseMove(Pt.x, Pt.y);
+			}
+			
+			else
+			{
+				ReleaseCapture();
+				MUS.OnMouseLeave();
+			}
+		}
+		break;
+	}
+	case WM_LBUTTONDOWN:
+	{
+		const POINTS Pt = MAKEPOINTS(lParam);
+		MUS.OnLeftPressed(Pt.x, Pt.y);
+		if (Pt.x < 0 || Pt.x >= X || Pt.y < 0 || Pt.y >= Y)
+		{
+			ReleaseCapture();
+			MUS.OnMouseLeave();
+		}
+		break;
+	}
+	case WM_LBUTTONUP:
+	{
+		const POINTS Pt = MAKEPOINTS(lParam);
+		MUS.OnLeftReleased(Pt.x, Pt.y);
+		if (Pt.x < 0 || Pt.x >= X || Pt.y < 0 || Pt.y >= Y)
+		{
+			ReleaseCapture();
+			MUS.OnMouseLeave();
+		}
+		break;
+	}
+	case WM_RBUTTONDOWN:
+	{
+		const POINTS Pt = MAKEPOINTS(lParam);
+		MUS.OnRightPressed(Pt.x, Pt.y);
+		break;
+	}
+	case WM_RBUTTONUP:
+	{
+		const POINTS Pt = MAKEPOINTS(lParam);
+		MUS.OnRightReleased(Pt.x, Pt.y);
+		break;
+	}
+	case WM_MBUTTONDOWN:
+	{
+		const POINTS Pt = MAKEPOINTS(lParam);
+		MUS.OnMiddlePressed(Pt.x, Pt.y);
+		break;
+	}
+	case WM_MBUTTONUP:
+	{
+		const POINTS Pt = MAKEPOINTS(lParam);
+		MUS.OnMiddleReleased(Pt.x, Pt.y);
+		break;
+	}
+	case WM_MOUSEWHEEL:
+	{
+		const POINTS Pt = MAKEPOINTS(lParam);
+		if (GET_WHEEL_DELTA_WPARAM(wParam) > 0)
+		{
+			MUS.OnWheelUp(Pt.x, Pt.y);
+		}
+		else if (GET_WHEEL_DELTA_WPARAM(wParam) < 0)
+		{
+			MUS.OnWheelDown(Pt.x, Pt.y);
+		}
+		break;
+	}
+		
 	}
 
 	return DefWindowProc(hWnd, msg, wParam, lParam);

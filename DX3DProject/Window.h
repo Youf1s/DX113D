@@ -2,6 +2,7 @@
 #include "YousifWin.h"
 #include "YousifErrorHandling.h"
 #include "Keyboard.h"
+#include "Mouse.h"
 
 
 
@@ -44,7 +45,11 @@ public:
 	~Window();
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
+	void SetTitle(const std::string& title);
+	
+
 	Keyboard KBD;
+	Mouse MUS;
 private:
 	static LRESULT WINAPI HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static LRESULT WINAPI HandleMsgRe(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -52,6 +57,7 @@ private:
 private:
 	int X;
 	int Y;
+	
 	HWND HWnd;
 };
 

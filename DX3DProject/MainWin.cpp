@@ -1,5 +1,5 @@
 #include "Window.h"
-
+#include<sstream>
 
 
 
@@ -21,13 +21,14 @@ int CALLBACK WinMain(
 
 		MSG Msg;
 		BOOL bRet;
-
-
-		while ((bRet = GetMessage(&Msg, nullptr, 0, 0)) > 0)
+		while ((bRet = GetMessage(&Msg, nullptr, 0, 0) > 0))
 		{
 			TranslateMessage(&Msg);
-			DispatchMessageW(&Msg);
-			
+			DispatchMessage(&Msg);
+
+	
+
+
 		}
 
 		if (bRet == -1)
@@ -56,3 +57,4 @@ int CALLBACK WinMain(
 
 
 }
+

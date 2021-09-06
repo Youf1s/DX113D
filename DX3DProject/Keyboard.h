@@ -3,6 +3,7 @@
 #include <bitset>
 class Keyboard
 {
+	friend class Window;
 public:
 	class Event
 	{
@@ -62,7 +63,7 @@ public:
 	void DisableAutoRepeat() noexcept;
 	bool IsAutoRepeatActive() noexcept;
 
-	
+private:
 	void OnKeyPressed(unsigned char Code) noexcept;
 	void OnKeyReleased(unsigned char Code) noexcept;
 	void OnChar(char Character) noexcept;
