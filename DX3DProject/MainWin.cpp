@@ -27,6 +27,7 @@ int CALLBACK WinMain(
 		{
 			TranslateMessage(&Msg);
 			DispatchMessageW(&Msg);
+			
 		}
 
 		if (bRet == -1)

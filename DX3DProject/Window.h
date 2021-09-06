@@ -1,6 +1,7 @@
 #pragma once
 #include "YousifWin.h"
 #include "YousifErrorHandling.h"
+#include "Keyboard.h"
 
 
 
@@ -43,6 +44,7 @@ public:
 	~Window();
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
+	Keyboard KBD;
 private:
 	static LRESULT WINAPI HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static LRESULT WINAPI HandleMsgRe(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
