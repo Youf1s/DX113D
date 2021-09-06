@@ -26,7 +26,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_DUCK                ICON                    "220-2201998_duck-quack-png-duck-clipart.ico"
+IDI_DUCK                ICON                    "Duck.ico"
 
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
