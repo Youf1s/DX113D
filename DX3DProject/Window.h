@@ -3,6 +3,9 @@
 #include "YousifErrorHandling.h"
 #include "Keyboard.h"
 #include "Mouse.h"
+#include"Graphics.h"
+#include<optional>
+#include<memory>
 
 
 
@@ -46,7 +49,10 @@ public:
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
 	void SetTitle(const std::string& title);
+
+	static std::optional<int> ProcMsg();
 	
+	Graphics& Gfx();
 
 	Keyboard KBD;
 	Mouse MUS;
@@ -57,7 +63,7 @@ private:
 private:
 	int X;
 	int Y;
-	
+	std::unique_ptr<Graphics> pGfx;
 	HWND HWnd;
 };
 

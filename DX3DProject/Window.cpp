@@ -71,6 +71,8 @@ Window::Window(int x, int y, const char* name)
 	}
 	
 	ShowWindow(HWnd, SW_SHOWDEFAULT);
+
+	pGfx = std::make_unique<Graphics>(HWnd);
 }
 
 Window::~Window()
@@ -85,6 +87,29 @@ void Window::SetTitle(const std::string& title)
 		throw YOUSIF_LAST_ERROR();
 	}
 }
+
+ std::optional<int> Window::ProcMsg()
+{
+	MSG Msg;
+	
+	while (PeekMessageA(&Msg, nullptr, 0, 0, PM_REMOVE))
+	{
+		if (Msg.message == WM_QUIT)
+		{
+			return Msg.wParam;
+		}
+
+		TranslateMessage(&Msg);
+		DispatchMessage(&Msg);
+	}
+
+	return{};
+}
+
+ Graphics& Window::Gfx()
+ {
+	 return *pGfx;
+ }
 
 LRESULT WINAPI Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) 
 {

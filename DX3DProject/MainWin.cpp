@@ -1,5 +1,5 @@
 #include "Window.h"
-#include<sstream>
+#include"App.h"
 
 
 
@@ -13,30 +13,8 @@ int CALLBACK WinMain(
 
 	try
 	{
-		Window Wnd(800, 600, "Yousif Window");
 
-
-
-
-
-		MSG Msg;
-		BOOL bRet;
-		while ((bRet = GetMessage(&Msg, nullptr, 0, 0) > 0))
-		{
-			TranslateMessage(&Msg);
-			DispatchMessage(&Msg);
-
-	
-
-
-		}
-
-		if (bRet == -1)
-		{
-			return -1;
-		}
-
-		return Msg.wParam;
+		return App().GO();
 
 	}
 	catch (const YousifError& Y)
