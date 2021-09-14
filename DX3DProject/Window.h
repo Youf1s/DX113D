@@ -14,15 +14,28 @@ class Window
 public:
 	class Errors : public YousifError
 	{
+		using YousifError::YousifError;
 	public:
-		Errors(int Line, const char* File, HRESULT HR) noexcept;
+		static std::string TransError(HRESULT HR) noexcept;
+	};
+
+	class HrErrors : public Errors 
+	{
+	public:
+		HrErrors(int line, const char* file, HRESULT hr) noexcept;
 		const char* what() const noexcept override;
 		const char* GetType() const noexcept override;
-		static std::string TransError(HRESULT HR) noexcept;
 		HRESULT GetError() const noexcept;
 		std::string GetErrorStr()const noexcept;
 	private:
-		HRESULT HR;
+		HRESULT hr;
+	};
+
+	class NoGfxErrors : public Errors 
+	{
+	public:
+		using Errors::Errors;
+		 const char* GetType() const noexcept override;
 	};
 
 
@@ -50,16 +63,16 @@ public:
 	Window& operator=(const Window&) = delete;
 	void SetTitle(const std::string& title);
 
-	static std::optional<int> ProcMsg();
+	static std::optional<int> ProcMsg() noexcept;
 	
 	Graphics& Gfx();
 
 	Keyboard KBD;
 	Mouse MUS;
 private:
-	static LRESULT WINAPI HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static LRESULT WINAPI HandleMsgRe(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	LRESULT HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static LRESULT WINAPI HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
+	static LRESULT WINAPI HandleMsgRe(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
+	LRESULT HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam ) noexcept;
 private:
 	int X;
 	int Y;
@@ -68,5 +81,6 @@ private:
 };
 
 
-#define YOUSIF_ERROR(HR) Window::Errors(__LINE__,__FILE__,HR)
-#define YOUSIF_LAST_ERROR() Window::Errors(__LINE__,__FILE__,GetLastError())
+#define YOUSIF_ERROR(hr) Window::HrErrors(__LINE__,__FILE__,(hr))
+#define YOUSIF_LAST_ERROR() Window::HrErrors(__LINE__,__FILE__,GetLastError())
+#define YOUSIF_NOGFX_ERROR() Window::NoGfxErrors(__LINE__,__FILE__)

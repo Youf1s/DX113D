@@ -45,8 +45,9 @@ char Keyboard::ReadChar() noexcept
 		{
 			return 0;
 		}
-		return 0;
+		
 	}
+	return 0;
 }
 
 bool Keyboard::CharIsEmpty() const noexcept

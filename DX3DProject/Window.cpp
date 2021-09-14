@@ -69,7 +69,7 @@ Window::Window(int x, int y, const char* name)
 	{
 		throw YOUSIF_LAST_ERROR();
 	}
-	
+
 	ShowWindow(HWnd, SW_SHOWDEFAULT);
 
 	pGfx = std::make_unique<Graphics>(HWnd);
@@ -88,7 +88,7 @@ void Window::SetTitle(const std::string& title)
 	}
 }
 
- std::optional<int> Window::ProcMsg()
+ std::optional<int> Window::ProcMsg() noexcept
 {
 	MSG Msg;
 	
@@ -108,10 +108,14 @@ void Window::SetTitle(const std::string& title)
 
  Graphics& Window::Gfx()
  {
+	 if (!pGfx)
+	 {
+		 throw YOUSIF_NOGFX_ERROR();
+	 }
 	 return *pGfx;
  }
 
-LRESULT WINAPI Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) 
+LRESULT WINAPI Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 {
 	
 	if (msg == WM_NCCREATE)
@@ -130,7 +134,7 @@ LRESULT WINAPI Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
-LRESULT WINAPI Window::HandleMsgRe(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT WINAPI Window::HandleMsgRe(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 {
 	
 	Window* const pWnd = reinterpret_cast<Window*>(GetWindowLongPtr(hWnd, GWLP_USERDATA));
@@ -138,7 +142,7 @@ LRESULT WINAPI Window::HandleMsgRe(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lP
 	return pWnd->HandleMsg(hWnd, msg, wParam, lParam);
 }
 
-LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 {
 	switch (msg)
 	{
@@ -270,28 +274,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 ///////////////// Eror Handling /////////////////////
 
-Window::Errors::Errors(int Line, const char* File, HRESULT HR) noexcept
-			:
-		YousifError(Line,File),
-		HR(HR)
-			
-{}
 
-const char* Window::Errors::what() const noexcept
-{
-	std::ostringstream OS;
-	OS<< GetType() << std::endl << "Error Code : " << GetError() << std::endl <<
-		"Description : " << GetErrorStr() <<
-		std::endl<< GetOrSt();
-	WtBuf = OS.str();
-
-	return WtBuf.c_str();
-}
-
-const char* Window::Errors::GetType() const noexcept
-{
-	return "Yousif Window Error";
-}
 
 std::string Window::Errors::TransError(HRESULT HR) noexcept
 {
@@ -308,12 +291,41 @@ std::string Window::Errors::TransError(HRESULT HR) noexcept
 	return ErrorSt;
 }
 
-HRESULT Window::Errors::GetError() const noexcept
+Window::HrErrors::HrErrors(int line, const char* file, HRESULT hr) noexcept
+	:
+	Errors(line, file),
+	hr(hr)
+{}
+
+const char* Window::HrErrors::what() const noexcept
 {
-	return HR;
+	std::ostringstream oss;
+	oss << GetType() << std::endl
+		<< "[Error Code] 0x" << std::hex << std::uppercase << GetError()
+		<< std::dec << " (" << (unsigned long)GetError() << ")" << std::endl
+		<< "[Description] " << GetErrorStr() << std::endl<<
+		GetOrSt();
+	WtBuf = oss.str();
+	return WtBuf.c_str();
 }
 
-std::string Window::Errors::GetErrorStr() const noexcept
+const char* Window::HrErrors::GetType() const noexcept
 {
-	return TransError(HR);
+	return "Yousif Window Error";
+}
+
+
+HRESULT Window::HrErrors::GetError() const noexcept
+{
+	return hr;
+}
+
+std::string Window::HrErrors::GetErrorStr() const noexcept
+{
+	return Errors::TransError(hr);
+}
+
+const char* Window::NoGfxErrors::GetType() const noexcept
+{
+	return "Yousif Window Exception [No Graphics]";
 }

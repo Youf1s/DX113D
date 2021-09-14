@@ -2,6 +2,7 @@
 
 #include<exception>
 #include<string>
+#include<sstream>
 
 class YousifError : public std::exception
 {
