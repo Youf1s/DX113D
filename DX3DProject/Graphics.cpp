@@ -1,5 +1,6 @@
 #include "Graphics.h"
 
+
 #pragma comment(lib,"d3d11.lib")
 
 Graphics::Graphics(HWND HWnd)
@@ -61,7 +62,7 @@ void Graphics::EndFrame()
 	}
 	else
 	{
-		throw std::runtime_error("pSwapChaine is NULL in Graphics.h\n");
+		
 	}
 	
 	
