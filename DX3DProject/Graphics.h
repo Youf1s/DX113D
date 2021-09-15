@@ -1,20 +1,52 @@
 #pragma once
 #include"YousifWin.h"
 #include<d3d11.h>
-#include<stdexcept>
+#include"YousifErrorHandling.h"
+#include<wrl.h>
 class Graphics
 {
+	/************************ For Errors in Graphics **********************************/
+public:
+	class Errors : public YousifError
+	{
+		using YousifError::YousifError;
+	};
+	class HrErrors : public Errors
+	{
+	public:
+		HrErrors(int line, const char* file, HRESULT hr) noexcept;
+		const char* what() const noexcept override;
+		const char* GetType() const noexcept override;
+		HRESULT GetErrorCode() const noexcept;
+
+		std::string GetErrorDescription() const noexcept;
+		static std::string TransError(HRESULT HR) noexcept;
+	private:
+		HRESULT hr;
+	};
+	class DeviceRemovedException : public HrErrors
+	{
+		using HrErrors::HrErrors;
+	public:
+		const char* GetType() const noexcept override;
+	};
+	/*********************************************************************************/
+
+
+
 public:
 	Graphics(HWND HWnd);
+	~Graphics() = default;
 	Graphics(const Graphics&) = delete;
 	Graphics& operator=(const Graphics&) = delete;
-	~Graphics();
-	void EndFrame();
 	void ClearBuffer(float red, float green, float blue, float alpha);
+	void EndFrame();
+	
 private:
-	IDXGISwapChain* pSwapChain = nullptr;
-	ID3D11Device* pDevice = nullptr;
-	ID3D11DeviceContext* pContext = nullptr ;
-	ID3D11RenderTargetView* pTarget = nullptr;
+	Microsoft::WRL::ComPtr<IDXGISwapChain>				pSwapChain;
+	Microsoft::WRL::ComPtr<ID3D11Device>				pDevice;
+	Microsoft::WRL::ComPtr<ID3D11DeviceContext>			pContext;
+	Microsoft::WRL::ComPtr<ID3D11RenderTargetView>		pTarget;
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilView>		pDSV;
 };
 

@@ -150,7 +150,9 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_KILLFOCUS:
 		KBD.ClearSt();
+		break;
 	case WM_KEYDOWN:
+		
 	case WM_SYSKEYDOWN:
 		KBD.OnKeyPressed(static_cast<unsigned char>(wParam));
 		if (!(lParam & 0x40000000) || KBD.IsAutoRepeatActive())
@@ -267,8 +269,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 
 
-
-///////////////// Eror Handling /////////////////////
+/********************************Error Handling Stuff*****************************************/
 
 Window::Errors::Errors(int Line, const char* File, HRESULT HR) noexcept
 			:

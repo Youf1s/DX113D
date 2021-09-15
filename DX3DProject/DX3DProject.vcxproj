@@ -155,10 +155,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="GraphicErrorMacros.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="WindosErrorMacros.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="YousifErrorHandling.h" />
     <ClInclude Include="YousifWin.h" />

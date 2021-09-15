@@ -1,6 +1,7 @@
 #pragma once
 #include "YousifWin.h"
 #include "YousifErrorHandling.h"
+#include"WindosErrorMacros.h"
 #include "Keyboard.h"
 #include "Mouse.h"
 #include"Graphics.h"
@@ -11,6 +12,7 @@
 
 class Window
 {
+	/*************************** Windows Error Handling ******************************************/
 public:
 	class Errors : public YousifError
 	{
@@ -25,7 +27,7 @@ public:
 		HRESULT HR;
 	};
 
-
+	/**********************************************************************************************/
 
 private:
 	
@@ -68,5 +70,3 @@ private:
 };
 
 
-#define YOUSIF_ERROR(HR) Window::Errors(__LINE__,__FILE__,HR)
-#define YOUSIF_LAST_ERROR() Window::Errors(__LINE__,__FILE__,GetLastError())

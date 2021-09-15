@@ -2,7 +2,7 @@
 
 App::App()
 	:
-	Wnd(800,600,"Yousif Window")
+	Wnd(1920,1080,"Yousif Window")
 {
 }
 
@@ -21,6 +21,7 @@ int App::GO()
 
 void App::DoFrame()
 {
+	Wnd.Gfx().ClearBuffer(0.0f, 0.0f, 0.0f, 1.0f);
 	Wnd.Gfx().EndFrame();
-	Wnd.Gfx().ClearBuffer(0.7f, 0.2f, 0.1f, 1.0f);
+	
 }
