@@ -44,17 +44,17 @@ HINSTANCE Window::WindowClass::GetInstance()
 
 
 
-Window::Window(int x, int y, const char* name)
+Window::Window(int X, int Y, const char* name)
 	:
-	X(x),
-	Y(y)
+	X(X),
+	Y(Y)
 {
 	
 	RECT WR;
 	WR.left = 100;
-	WR.right = x + WR.left;
+	WR.right = X + WR.left;
 	WR.top = 100;
-	WR.bottom = y + WR.top;
+	WR.bottom = Y + WR.top;
 	if (AdjustWindowRect(&WR, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU , FALSE) == 0)
 	{
 		throw YOUSIF_LAST_ERROR();

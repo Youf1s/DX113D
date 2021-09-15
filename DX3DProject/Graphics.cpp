@@ -8,7 +8,7 @@
 #pragma comment(lib,"D3DCompiler.lib")
 Graphics::Graphics(HWND HWnd)
 {
-
+	/****************Swap Chain Desc***********************/
 	DXGI_SWAP_CHAIN_DESC SD = {};
 	SD.BufferDesc.Width = 0;
 	SD.BufferDesc.Height = 0;
@@ -25,28 +25,44 @@ Graphics::Graphics(HWND HWnd)
 	SD.Windowed = TRUE;
 	SD.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	SD.Flags = 0;
+	/*******************************************/
 
+	//For Error Macro
 	HRESULT hr;
 
+
+	/********************* Creating SwapchainAndDevice ****************************/
 	YOUSIF_ERROR_GFX(D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, D3D11_CREATE_DEVICE_DEBUG,
 		nullptr, 0, D3D11_SDK_VERSION, &SD, &pSwapChain, &pDevice, nullptr, &pContext));
+	/*******************************************/
 
+
+
+
+
+	/*********************Geting Back Buffer ****************************/
 	Microsoft::WRL::ComPtr<ID3D11Resource> pResource;
 	YOUSIF_ERROR_GFX(pSwapChain->GetBuffer(0, __uuidof(ID3D11Resource), &pResource));
 	YOUSIF_ERROR_GFX(pDevice->CreateRenderTargetView(pResource.Get(), nullptr, &pTarget));
+	/*****************************************/
 
 
 
+
+
+	/************************Creating Depth State And Binding It************************************/
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> pDSState;
 	D3D11_DEPTH_STENCIL_DESC dsDesc = {};
 	dsDesc.DepthEnable = TRUE;
 	dsDesc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
 	dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
 	YOUSIF_ERROR_GFX(pDevice->CreateDepthStencilState(&dsDesc, &pDSState));
-
 	pContext->OMSetDepthStencilState(pDSState.Get(), 1u);
+	/**************************/
 
 
+
+	/***************************** Texture For Depth And Binding It*********************************/
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> pDepthStencil;
 	D3D11_TEXTURE2D_DESC descDepth = {};
 	descDepth.Width = 1920u;
@@ -59,19 +75,27 @@ Graphics::Graphics(HWND HWnd)
 	descDepth.Usage = D3D11_USAGE_DEFAULT;
 	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
 	YOUSIF_ERROR_GFX(pDevice->CreateTexture2D(&descDepth, nullptr, &pDepthStencil));
+	/******************************************/
 
+	
+
+
+
+
+
+	/******************************Desc Depth And Binding It*******************************************/
 	D3D11_DEPTH_STENCIL_VIEW_DESC descDSV = {};
 	descDSV.Format = DXGI_FORMAT_D32_FLOAT;
 	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 	descDSV.Texture2D.MipSlice = 0u;
 	YOUSIF_ERROR_GFX(pDevice->CreateDepthStencilView(
-		pDepthStencil.Get(), &descDSV, &pDSV
-	));
-
-	// bind depth stensil view to OM
+		pDepthStencil.Get(), &descDSV, &pDSV));
 	pContext->OMSetRenderTargets(1u, pTarget.GetAddressOf(), pDSV.Get());
+	/**************************************/
 
 
+
+	/**************************View Port Desc And Binding It************************************/
 	D3D11_VIEWPORT vip;
 	vip.Width = 1920.0f;
 	vip.Height = 1080.0f;
@@ -80,17 +104,33 @@ Graphics::Graphics(HWND HWnd)
 	vip.TopLeftX = 0.0f;
 	vip.TopLeftY = 0.0f;
 	pContext->RSSetViewports(1u, &vip);
-
+	/************************************************/
 }
 
 
 
 void Graphics::EndFrame()
 {
+	
 	pSwapChain->Present(1u, 0u);
 
 }
 
+
+void Graphics::DrawIndex(UINT Count)
+{
+	pContext->DrawIndexed(Count, 0u, 0u);
+}
+
+void Graphics::SetProjection(DirectX::FXMMATRIX Proj)
+{
+	projection = Proj;
+}
+
+DirectX::XMMATRIX Graphics::GetProjection() const
+{
+	return projection;
+}
 
 void Graphics::ClearBuffer(float red, float green, float blue, float alpha)
 {

@@ -19,56 +19,95 @@
     <Filter Include="Macros">
       <UniqueIdentifier>{d45ea1f8-d7d5-4b51-9960-54410cbd64a3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\GraphicsStuff">
+      <UniqueIdentifier>{d347f5a4-398a-4ea1-903a-6886e1d231b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GraphicsStuff\BindableStuff">
+      <UniqueIdentifier>{9af87b01-399e-4f21-921a-cdf8bdd5f11d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GraphicsStuff\DrawableStuff">
+      <UniqueIdentifier>{e20197a4-a106-46d9-8319-baada6728993}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GraphicsStuff">
+      <UniqueIdentifier>{5511df9d-76fb-4bd1-b180-2395a819f5cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GraphicsStuff\BindableStuff">
+      <UniqueIdentifier>{42738199-df83-4295-ab01-ad77c95683d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GraphicsStuff\DrawableStuff">
+      <UniqueIdentifier>{5c65db7c-934b-43e6-a774-0dd4f529ff19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\WindowsStuff">
+      <UniqueIdentifier>{fd4965ff-52e3-48cc-a631-cbc3c4d08121}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\WindowsStuff">
+      <UniqueIdentifier>{9fe7e8d5-7230-4427-bad3-fd401ecd77e4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MainWin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="YousifErrorHandling.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Keyboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Mouse.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Graphics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BindIt.cpp">
+      <Filter>Source Files\GraphicsStuff\BindableStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="IndexBuffer.cpp">
+      <Filter>Source Files\GraphicsStuff\BindableStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>Source Files\GraphicsStuff\DrawableStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics.cpp">
+      <Filter>Source Files\GraphicsStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="PixelShader.cpp">
+      <Filter>Source Files\GraphicsStuff\BindableStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="InputLayout.cpp">
+      <Filter>Source Files\GraphicsStuff\BindableStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexShader.cpp">
+      <Filter>Source Files\GraphicsStuff\BindableStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexBuffer.cpp">
+      <Filter>Source Files\GraphicsStuff\BindableStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformCBuf.cpp">
+      <Filter>Source Files\GraphicsStuff\BindableStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="Topolagy.cpp">
+      <Filter>Source Files\GraphicsStuff\BindableStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawIt.cpp">
+      <Filter>Source Files\GraphicsStuff\DrawableStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="Keyboard.cpp">
+      <Filter>Source Files\WindowsStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="MainWin.cpp">
+      <Filter>Source Files\WindowsStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="Mouse.cpp">
+      <Filter>Source Files\WindowsStuff</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files\WindowsStuff</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="YousifWin.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="YousifErrorHandling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Keyboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Mouse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="App.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GraphicErrorMacros.h">
@@ -80,6 +119,60 @@
     <ClInclude Include="Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>Header Files\GraphicsStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="BindIt.h">
+      <Filter>Header Files\GraphicsStuff\BindableStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>Header Files\GraphicsStuff\BindableStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="InputLayout.h">
+      <Filter>Header Files\GraphicsStuff\BindableStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="PixelShader.h">
+      <Filter>Header Files\GraphicsStuff\BindableStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="Topolagy.h">
+      <Filter>Header Files\GraphicsStuff\BindableStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexShader.h">
+      <Filter>Header Files\GraphicsStuff\BindableStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>Header Files\GraphicsStuff\BindableStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstBuf.h">
+      <Filter>Header Files\GraphicsStuff\BindableStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="AllBindabls.h">
+      <Filter>Header Files\GraphicsStuff\BindableStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="TransformCBuf.h">
+      <Filter>Header Files\GraphicsStuff\BindableStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawIt.h">
+      <Filter>Header Files\GraphicsStuff\DrawableStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawItBase.h">
+      <Filter>Header Files\GraphicsStuff\DrawableStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Header Files\GraphicsStuff\DrawableStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="Keyboard.h">
+      <Filter>Header Files\WindowsStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="Mouse.h">
+      <Filter>Header Files\WindowsStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Header Files\WindowsStuff</Filter>
+    </ClInclude>
+    <ClInclude Include="YousifWin.h">
+      <Filter>Header Files\WindowsStuff</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="DX3DProject.rc">
@@ -90,5 +183,13 @@
     <Image Include="Duck.ico">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="PixelShader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="VertexShader.hlsl">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
