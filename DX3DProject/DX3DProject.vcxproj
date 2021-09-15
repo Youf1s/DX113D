@@ -150,6 +150,7 @@
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="MainWin.cpp" />
     <ClCompile Include="Mouse.cpp" />
+    <ClCompile Include="Timer.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="YousifErrorHandling.cpp" />
   </ItemGroup>
@@ -160,6 +161,7 @@
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="Timer.h" />
     <ClInclude Include="WindosErrorMacros.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="YousifErrorHandling.h" />
